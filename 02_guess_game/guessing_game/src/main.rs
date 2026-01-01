@@ -13,10 +13,17 @@ fn main() {
     println!("Please input your guess.");
 
     let mut guess = String::new();
+    
+    ///test
+    println!("input edcode: {}", guess);
+    ///
+
 
     io::stdin()
         .read_line(&mut guess)
         .expect("Failed to read line");
+    
+    let guess: u32 = guess.trim().parse().expect("please type a number!");
 
     println!("You guessed: {guess}");
 
