@@ -6,7 +6,7 @@ fn main() {
     let result = add_numbers(num1, num2);
 
     // Print the result to the console
-    println!("The sum of {0} and {1} is: {2}", num1, num2, result);
+    println!("The sum of {0} and {2} is: {1}", num1, result, num2);
 }
 
 // Function that takes two integers and returns their sum
