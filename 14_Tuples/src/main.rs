@@ -16,4 +16,3 @@ fn main() {
     println!("Area : {:?}", circl_info.2);
 }
 
-//this was 2026.01.12 Exercise
