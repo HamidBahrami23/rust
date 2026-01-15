@@ -11,43 +11,65 @@
 // * Implement functionality on the box struct to print the characteristics
 
 
-
-enum BoxColor {
-    Blue,
+enum Color {
     Red,
+    Blue,
     Green,
 }
 
-fn which_boxcolor (col : BoxColor) {
-    match col {
-        BoxColor::Blue => "Blue" ,
-        BoxColor::Green => "Green" ,
-        BoxColor::Red => "Red" ,
-    };
-}
+impl Color {
+    fn print(&self){
+        match self {
+            Color::Blue => println!("Color of Box is Blue"),
+            Color::Green => println!("Color of Box is Green"),
+            Color::Red => println!("Color of Box is Red"),
 
-struct BoxCharac {
-    dimensions: (f64, f64 , f64 ) ,
-    weight: f64 ,
-    color: () ,
-}
-
-impl BoxCharac {
-    fn n_box () -> Self {
-        Self{ 
-            dimensions: (0.25, 0.2, 0.3) ,
-            weight: 0.75 ,
-            color: which_boxcolor(BoxColor::Blue),
         }
-    } 
-
-    fn print_charac(&self) {
-        println!("dimentions: {:?}", self.dimensions);
-        println!("weight: {:?}" , self.weight);
-        println!("color: {:?}", self.color);
     }
 }
+
+struct Dimensions {
+    width: f64,
+    height: f64,
+    depth: f64,
+}
+
+impl Dimensions {
+    fn print(&self){
+        println!("width is : {:?}", self.width);
+        println!("height is : {:?}", self.height);
+        println!("depth is : {:?}", self.depth);
+    }
+}
+struct BoxCharacteristics {
+    color : Color ,
+    weight : f64 ,
+    dimensions : Dimensions,
+}
+
+impl BoxCharacteristics {
+    fn new(color: Color , weight: f64 , dimensions : Dimensions) -> Self {
+        Self {
+            color ,
+            weight ,
+            dimensions 
+        }
+    }
+
+    fn print(&self) {
+        self.color.print();
+        self.dimensions.print();
+        println!("weight is : {:?}" , self.weight);
+    }
+}
+
 fn main() {
-    let box_new = BoxCharac::n_box();
-    box_new.print_charac();
+    let small_box_dimensions = Dimensions { 
+        width: 1.0 ,
+        height: 2.0 ,
+        depth: 0.5,
+    };
+
+    let small_box = BoxCharacteristics::new(Color::Blue, 2.1, small_box_dimensions);
+    small_box.print();
 }
