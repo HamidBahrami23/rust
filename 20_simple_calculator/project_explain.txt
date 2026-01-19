@@ -1,0 +1,29 @@
+## 🧠 1. Simple Console Application with Different Functions
+
+### **Project Goal**
+Create a basic console application that demonstrates various functions (addition, subtraction, multiplication, division) while utilizing variables, data types, and control flow mechanisms (if/else, match).
+
+### **What to Implement**
+- Create multiple functions for basic arithmetic operations
+- Use different data types (integers, floating-point numbers)
+- Implement control flow structures (if/else statements)
+- Use match expressions for operation selection
+- Handle user input from console
+- Display results in formatted output
+- Implement error handling for invalid operations (like division by zero)
+- Use variables with different scopes and lifetimes
+
+### **What NOT to Implement**
+- Complex mathematical calculations beyond basic arithmetic
+- GUI interfaces or graphical elements
+- External database connections
+- Advanced memory management features
+- Multi-threading or async operations
+- Complex data structures beyond basic types
+
+### **Tools and Technologies**
+- Rust compiler (rustc)
+- Standard library only (no external crates needed)
+- Basic console input/output operations
+- Variable declaration and assignment
+- Basic control flow statements
