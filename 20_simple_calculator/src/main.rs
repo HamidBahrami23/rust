@@ -31,6 +31,31 @@ Create a basic console application that demonstrates various functions (addition
 - Basic control flow statements
 
 */
+use std::io;
+
+fn read_number() -> i32 {
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).expect("Failed to read");
+
+    input.trim().parse::<i32>().expect("Please enter a number")
+}
+
+/*
+this is ai suggeststion that I still can't unerstand it
+fn read_number() -> i32 {
+    loop {
+        let mut input = String::new();
+        std::io::stdin().read_line(&mut input).unwrap();
+
+        match input.trim().parse::<i32>() {
+            Ok(n) => return n,
+            Err(_) => println!("Please enter a valid number:"),
+        }
+    }
+}
+
+*/
+
 
 fn sumf(a: i32 , b: i32) -> i32{
     a + b
@@ -45,8 +70,13 @@ fn mulf(a: i32 , b: i32) -> i32 {
 }
 
 fn divf(a: i32 , b: i32) -> Option<f64> {
-    Some(a as f64 / b as f64)
+    if b == 0 {
+        None
+    } else {
+        Some(a as f64 / b as f64)
+    }
 }
+
 
 enum Console {
     Sum ,
@@ -58,8 +88,11 @@ enum Console {
 fn main() {
     println!("Welcome to my first Project in Rust");
     
-    let num1 = 200;
-    let num2 = 24;
+    println!("Enter first number:");
+    let num1 = read_number();
+
+    println!("Enter second number:");
+    let num2 = read_number();
 
     println!("our numbers are :");
     println!("number 1 : {:?}", num1);
@@ -74,21 +107,17 @@ fn main() {
         Console::Div ] ;
 
     for i in operations {
-        if num2 != 0 {
-            match i {
-                Console::Sum => println!("Sum = {:?}",sumf(num1, num2)),
-                Console::Sub => println!("Sub = {:?}",subf(num1, num2)),
-                Console::Mul => println!("Mul = {:?}",mulf(num1, num2)),
-                Console::Div => println!("Div = {:?}",divf(num1, num2)),
-            }
-        } else {
-            match i {
-                Console::Sum => println!("Sum = {:?}",sumf(num1, num2)),
-                Console::Sub => println!("Sub = {:?}",subf(num1, num2)),
-                Console::Mul => println!("Mul = {:?}",mulf(num1, num2)),
-                Console::Div => println!("Div = Can not divide to 0"),
+
+        match i {
+            Console::Sum => println!("Sum = {}",sumf(num1, num2)),
+            Console::Sub => println!("Sub = {}",subf(num1, num2)),
+            Console::Mul => println!("Mul = {}",mulf(num1, num2)),
+            Console::Div => match divf(num1, num2) {
+                Some(result) => println!("Div = {}", result),
+                None => println!("Div = Cannot divide by zero"),
             }
         }
+
     }
 
 }
