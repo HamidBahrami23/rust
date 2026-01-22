@@ -1,0 +1,377 @@
+/* 
+Advanced Match Example with Enum, Struct, Ownership, Borrowing, Functions, and I/O
+
+This example demonstrates various advanced match features combined with Rust's core concepts
+*/
+
+// Define an enum to represent different types of products
+/* 
+Enum is a data type that can hold one of several variants
+Each variant can optionally contain data
+*/
+enum ProductType {
+    Book { pages: i32, author: String },
+    Electronics { brand: String, warranty_months: i32 },
+    Clothing { size: char, color: String },
+    Unknown,
+}
+
+// Define a simple struct for customer information
+/* 
+Struct is a custom data type that groups together related data
+Customer has name, age, and email fields
+*/
+struct Customer {
+    name: String,
+    age: i32,
+    email: String,
+}
+
+// Define a more complex struct for shopping cart items
+/* 
+ShoppingCartItem contains a product, quantity, and price
+This demonstrates nested structures and ownership
+*/
+struct ShoppingCartItem {
+    product: ProductType,
+    quantity: i32,
+    price: f64,
+}
+
+// Define a shopping cart struct
+/* 
+ShoppingCart holds multiple items and customer information
+This shows how to work with collections and ownership
+*/
+struct ShoppingCart {
+    items: Vec<ShoppingCartItem>,
+    customer: Customer,
+    total_amount: f64,
+}
+
+/* 
+Function that takes ownership of a ShoppingCart and returns a summary
+- Takes ownership (moves the data) using 'self' parameter
+- Demonstrates ownership transfer
+- Returns a String summary
+*/
+impl ShoppingCart {
+    fn get_summary(self) -> String {
+        /* 
+        Advanced match with multiple patterns:
+        - Match on enum variants with data extraction
+        - Use of binding to extract values from enum variants
+        - Pattern matching with struct destructuring
+        - Use of wildcards (_)
+        */
+        let mut summary = format!("Customer: {} (Age: {})\n", self.customer.name, self.customer.age);
+        summary.push_str("Items:\n");
+        
+        // Advanced match with enum destructuring
+        for item in self.items {
+            match item.product {
+                // Pattern matching with struct-like destructuring for Book variant
+                ProductType::Book { pages, author } => {
+                    summary.push_str(&format!("  - Book: {} pages by {}\n", pages, author));
+                }
+                // Pattern matching with binding for Electronics variant
+                ProductType::Electronics { brand, warranty_months } => {
+                    summary.push_str(&format!("  - Electronics: {} (warranty: {} months)\n", brand, warranty_months));
+                }
+                // Pattern matching with simple binding for Clothing variant
+                ProductType::Clothing { size, color } => {
+                    summary.push_str(&format!("  - Clothing: {} size, {} color\n", size, color));
+                }
+                // Pattern matching for Unknown variant
+                ProductType::Unknown => {
+                    summary.push_str("  - Unknown product type\n");
+                }
+            }
+            summary.push_str(&format!("    Quantity: {}, Price: ${:.2}\n", item.quantity, item.price));
+        }
+        
+        summary.push_str(&format!("Total Amount: ${:.2}\n", self.total_amount));
+        summary
+    }
+    
+    /* 
+    Function that takes a reference to ShoppingCart and returns customer info
+    - Takes immutable reference (&self) to avoid ownership transfer
+    - Demonstrates borrowing concepts
+    - Returns string with customer information
+    */
+    fn get_customer_info(&self) -> String {
+        /* 
+        Advanced match with reference patterns:
+        - Match on string references
+        - Pattern guards with conditions
+        - Using .. to ignore parts of complex structures
+        */
+        match &self.customer.email[..] {
+            // Pattern matching with string literals
+            email if email.contains("@gmail.com") => {
+                format!("Customer {} uses Gmail account", self.customer.name)
+            }
+            email if email.contains("@yahoo.com") => {
+                format!("Customer {} uses Yahoo account", self.customer.name)
+            }
+            // Pattern matching with range
+            email if email.len() > 20 => {
+                format!("Customer {} has a long email address", self.customer.name)
+            }
+            // Default case
+            _ => {
+                format!("Customer {} has email: {}", self.customer.name, self.customer.email)
+            }
+        }
+    }
+    
+    /* 
+    Function that processes items and returns summary statistics
+    - Takes mutable reference to modify data
+    - Demonstrates mutable borrowing
+    - Returns tuple with statistics
+    */
+    fn get_statistics(&mut self) -> (i32, f64, String) {
+        /* 
+        Advanced match with complex pattern matching:
+        - Match on enum variants with multiple conditions
+        - Use of match guards (if conditions)
+        - Pattern matching with multiple destructuring
+        - Binding to multiple variables
+        */
+        let mut total_items = 0;
+        let mut total_value = 0.0;
+        let mut product_types = String::new();
+        
+        for item in &self.items {
+            // Advanced match with multiple destructuring patterns
+            match &item.product {
+                // Match Book variant and extract data
+                ProductType::Book { pages, author } => {
+                    total_items += item.quantity;
+                    total_value += item.price * (item.quantity as f64);
+                    product_types.push_str(&format!("Book({} pages), ", author));
+                }
+                // Match Electronics variant with condition
+                ProductType::Electronics { brand, warranty_months } => {
+                    total_items += item.quantity;
+                    total_value += item.price * (item.quantity as f64);
+                    if *warranty_months > 12 {
+                        product_types.push_str(&format!("Premium Electronics({}), ", brand));
+                    } else {
+                        product_types.push_str(&format!("Standard Electronics({}), ", brand));
+                    }
+                }
+                // Match Clothing variant
+                ProductType::Clothing { size, color } => {
+                    total_items += item.quantity;
+                    total_value += item.price * (item.quantity as f64);
+                    product_types.push_str(&format!("Clothing({} size, {}), ", size, color));
+                }
+                // Match Unknown variant
+                ProductType::Unknown => {
+                    total_items += item.quantity;
+                    total_value += item.price * (item.quantity as f64);
+                    product_types.push_str("Unknown, ");
+                }
+            }
+        }
+        
+        // Return tuple with statistics
+        (total_items, total_value, product_types)
+    }
+}
+
+/* 
+Main function that demonstrates all concepts together
+- Handles user input and output
+- Demonstrates ownership transfer
+- Shows borrowing patterns
+- Uses advanced match features
+*/
+fn main() {
+    /* 
+    Create some sample data using ownership concepts:
+    - String literals are moved to String objects
+    - Structs are created with owned data
+    - Vec is created with owned ShoppingCartItem objects
+    */
+    
+    // Create a customer
+    let customer = Customer {
+        name: String::from("Alice Johnson"),
+        age: 28,
+        email: String::from("alice.johnson@gmail.com"),
+    };
+    
+    // Create sample products using different enum variants
+    let book_product = ProductType::Book {
+        pages: 350,
+        author: String::from("George Orwell"),
+    };
+    
+    let electronics_product = ProductType::Electronics {
+        brand: String::from("Samsung"),
+        warranty_months: 24,
+    };
+    
+    let clothing_product = ProductType::Clothing {
+        size: 'M',
+        color: String::from("Blue"),
+    };
+    
+    let unknown_product = ProductType::Unknown;
+    
+    // Create shopping cart items
+    let items = vec![
+        ShoppingCartItem {
+            product: book_product,
+            quantity: 2,
+            price: 12.99,
+        },
+        ShoppingCartItem {
+            product: electronics_product,
+            quantity: 1,
+            price: 299.99,
+        },
+        ShoppingCartItem {
+            product: clothing_product,
+            quantity: 3,
+            price: 24.50,
+        },
+        ShoppingCartItem {
+            product: unknown_product,
+            quantity: 1,
+            price: 0.00,
+        },
+    ];
+    
+    // Create shopping cart with ownership transfer
+    let mut shopping_cart = ShoppingCart {
+        items,
+        customer,
+        total_amount: 0.0,
+    };
+    
+    /* 
+    Calculate total amount - demonstrates borrowing and ownership
+    - Mutable reference is needed to modify the cart
+    - Immutable references are used for reading
+    */
+    for item in &shopping_cart.items {
+        shopping_cart.total_amount += item.price * (item.quantity as f64);
+    }
+    
+    /* 
+    Demonstrate advanced match with input/output:
+    - Get customer info using immutable reference
+    - Get statistics using mutable reference
+    - Print results to console
+    */
+    
+    // Get customer info using borrowing
+    let customer_info = shopping_cart.get_customer_info();
+    println!("Customer Information:");
+    println!("{}", customer_info);
+    println!();
+    
+    // Get statistics using mutable borrowing
+    let (total_items, total_value, product_types) = shopping_cart.get_statistics();
+    println!("Shopping Cart Statistics:");
+    println!("Total Items: {}", total_items);
+    println!("Total Value: ${:.2}", total_value);
+    println!("Product Types: {}", product_types);
+    println!();
+    
+    // Get summary using ownership transfer
+    let summary = shopping_cart.get_summary();
+    println!("Shopping Cart Summary:");
+    println!("{}", summary);
+    
+    /* 
+    Advanced match with user input simulation:
+    - Pattern matching with different input scenarios
+    - Demonstrates pattern guards and multiple conditions
+    - Shows how to handle different user input patterns
+    */
+    
+    // Simulate different user input patterns
+    let user_input = "purchase";
+    let user_age = 25;
+    let user_budget = 500.0;
+    
+    // Advanced match with multiple conditions and pattern guards
+    let purchase_result = match user_input {
+        // Match exact string
+        "purchase" => {
+            if user_age >= 18 {
+                if user_budget >= 100.0 {
+                    "Purchase approved: User is adult and has sufficient budget"
+                } else {
+                    "Purchase denied: Insufficient budget"
+                }
+            } else {
+                "Purchase denied: User is underage"
+            }
+        }
+        // Match pattern with string methods
+        action if action.starts_with("cancel") => {
+            "Purchase cancelled"
+        }
+        // Match with range
+        action if action.len() > 10 => {
+            "Action too long"
+        }
+        // Default case
+        _ => {
+            "Unknown action"
+        }
+    };
+    
+    println!("Purchase Processing Result:");
+    println!("{}", purchase_result);
+    
+    /* 
+    Advanced match with complex data structures:
+    - Match on nested enum structures
+    - Use of pattern guards with complex conditions
+    - Demonstrates how to handle complex ownership scenarios
+    */
+    
+    // Create a more complex example with nested patterns
+    let complex_data = vec![
+        ProductType::Book { pages: 200, author: String::from("Author1") },
+        ProductType::Electronics { brand: String::from("Brand1"), warranty_months: 12 },
+        ProductType::Clothing { size: 'L', color: String::from("Red") },
+    ];
+    
+    println!("\nComplex Pattern Matching Results:");
+    
+    // Advanced match with nested destructuring
+    for (index, product) in complex_data.iter().enumerate() {
+        match product {
+            // Pattern matching with nested destructuring
+            ProductType::Book { pages, author } => {
+                println!("Item {}: Book by {} with {} pages", index + 1, author, pages);
+            }
+            // Pattern matching with binding and conditions
+            ProductType::Electronics { brand, warranty_months } => {
+                let warranty_status = if *warranty_months > 12 {
+                    "Extended warranty"
+                } else {
+                    "Standard warranty"
+                };
+                println!("Item {}: Electronics from {} with {} warranty", index + 1, brand, warranty_status);
+            }
+            // Pattern matching with character and string handling
+            ProductType::Clothing { size, color } => {
+                println!("Item {}: Clothing - {} size {} color", index + 1, size, color);
+            }
+            // Handle unknown case
+            ProductType::Unknown => {
+                println!("Item {}: Unknown product type", index + 1);
+            }
+        }
+    }
+}

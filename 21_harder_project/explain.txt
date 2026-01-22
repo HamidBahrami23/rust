@@ -1,0 +1,76 @@
+PROJECT NAME: Advanced Rust Pattern Matching System
+
+PROJECT AIM:
+Create a comprehensive Rust application that demonstrates advanced match expressions combined with enums, structs, ownership, borrowing, functions, and I/O operations. The system should showcase how to effectively use pattern matching to handle complex data structures and business logic.
+
+WHAT YOU SHOULD DO:
+
+1. CREATE ENUM STRUCTURES:
+   - Define ProductType enum with Book, Electronics, Clothing, and Unknown variants
+   - Each variant should contain relevant data fields
+   - Implement proper data types (String, i32, f64, char)
+
+2. CREATE STRUCTURE DEFINITIONS:
+   - Define Customer struct with name, age, and email fields
+   - Define ShoppingCartItem struct with product, quantity, and price
+   - Define ShoppingCart struct with items, customer, and total_amount
+
+3. IMPLEMENT ADVANCED MATCH EXPRESSIONS:
+   - Use pattern matching with enum destructuring
+   - Implement binding to extract values from enum variants
+   - Use wildcard patterns (_)
+   - Apply pattern guards with conditions
+   - Demonstrate nested pattern matching
+
+4. DEVELOP FUNCTIONALITY:
+   - Create get_customer_info() function using immutable borrowing
+   - Implement get_statistics() function using mutable borrowing
+   - Build get_summary() function that transfers ownership
+   - Add purchase processing logic with complex pattern matching
+
+5. HANDLE INPUT/OUTPUT:
+   - Simulate user input scenarios
+   - Process different action patterns
+   - Display results to console
+   - Handle various user conditions
+
+6. STRUCTURE YOUR CODE PROPERLY:
+   - Organize functions within the main() scope
+   - Use proper ownership transfer concepts
+   - Implement borrowing patterns correctly
+   - Add comprehensive comments explaining each section
+
+WHAT YOU SHOULD NOT DO:
+
+1. AVOID SIMPLE MATCHING:
+   - Don't use basic pattern matching only
+   - Don't implement trivial enum variants
+   - Don't create simple functions without advanced concepts
+
+2. DON'T MIX OWNERSHIP ERRORS:
+   - Don't try to use moved values after transfer
+   - Don't mix mutable and immutable references incorrectly
+   - Don't create borrowing conflicts
+
+3. AVOID CODE REDUNDANCY:
+   - Don't repeat same pattern matching logic
+   - Don't create unnecessary variables
+   - Don't overcomplicate simple operations
+
+4. DON'T IGNORE ERROR HANDLING:
+   - Don't assume all user inputs will be valid
+   - Don't ignore pattern matching edge cases
+   - Don't skip proper data validation
+
+5. AVOID PERFORMANCE ISSUES:
+   - Don't create unnecessary clones
+   - Don't use inefficient loops
+   - Don't store data inappropriately
+
+EXPECTED DELIVERABLES:
+- Complete working Rust project
+- Well-commented code explaining each advanced concept
+- Proper error handling and edge case management
+- Clean, organized code structure
+- Demonstrated understanding of Rust ownership system
+- Comprehensive use of advanced match expressions
