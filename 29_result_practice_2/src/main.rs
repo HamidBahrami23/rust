@@ -28,7 +28,11 @@ fn main() {
     let choice1 = pick_choice("Start");
     let choice2 = pick_choice("quit");
     let choice3 = pick_choice("Exit");
-    println!("choice value: {:?}" , choice1);
-    println!("choice value: {:?}" , choice2);
-    println!("choice value: {:?}" , choice3);
+
+    println!("choice 1 value: {:?}" , choice1);
+    println!("choice 2 value: {:?}" , choice2);
+    println!("choice 3 value: {:?}" , choice3);
+
+    println!("{:?}",getchoice("zz"));
+    println!("{:?}",getchoice("MainMenu"));
 }
