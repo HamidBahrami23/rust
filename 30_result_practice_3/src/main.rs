@@ -11,24 +11,23 @@
 // * Return a result from the function
 // * The Err variant should detail the reason why they cannot make a purchase
 
-struct Customer {
-    age: u8,
+struct MinAge {
+    age : u8,
 }
 
-fn can_make_restricted_purchase(customer: &Customer) -> Result<(), String> {
-    if customer.age >= 21 {
+fn age_checker(age: MinAge) -> Result<() , String> {
+    if age.age > 20 {
         Ok(())
-    } else {
-        Err(format!("Customer is too young: age {}", customer.age))
+    }else {
+        Err("Oops! not possible for this age".to_owned())
     }
 }
 
 fn main() {
-    let customer = Customer { age: 19 };
-
-    match can_make_restricted_purchase(&customer) {
-        Ok(()) => println!("Purchase approved"),
-        Err(reason) => println!("Purchase denied: {}", reason),
+    let customer_age = MinAge { age : 21};
+    match age_checker(customer_age) {
+        Ok(_) => println!("Come in Welcome!"),
+        Err(message) => println!("{:?}",message),
     }
 }
 
