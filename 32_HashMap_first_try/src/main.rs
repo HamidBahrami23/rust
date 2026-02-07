@@ -51,4 +51,15 @@ fn main() {
     for (book, review) in &book_reviews {
         println!("{book}: \"{review}\"");
     }
+
+    let mut people = HashMap::new();
+    people.insert("Targaryen", 43);
+    people.insert("Lanister", 32);
+    people.insert("Stark", 50);
+
+    match people.get("Stark") {
+        Some(mind_age) => println!("{:?}",mind_age),
+        None => println!("Not found")
+    }
+
 }
