@@ -31,3 +31,8 @@ fn main() {
         Err(err) => println!("Error: {}", err),
     }
 }
+//just for filling my day in 2026.02.11
+//today was a bad day for me
+//but I ried to learn more in git
+//so maybe u can't see any progress
+//gl next days
