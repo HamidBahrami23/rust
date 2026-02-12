@@ -1,0 +1,13 @@
+[package]
+name = "Manji"
+version = "0.1.0"
+edition = "2024"
+authors = ["Hamid Bahrami"]
+
+# the profile used for `cargo build`
+[profile.dev]
+panic = "abort" # disable stack unwinding on panic
+
+# the profile used for `cargo build --release`
+[profile.release]
+panic = "abort" # disable stack unwinding on panic
